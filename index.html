@@ -70,7 +70,7 @@
         }
 
         #links-count-display {
-            font-size: 24px;
+            font-size: 28px;
             color: #23a559;
             font-weight: bold;
         }
@@ -113,7 +113,7 @@
             </div>
 
             <div class="inventory-card">
-                <div style="font-size: 14px; color: #b5bac1; margin-bottom: 5px;">الروابط المتوفرة في المخزون:</div>
+                <div style="font-size: 14px; color: #b5bac1; margin-bottom: 5px;">عدد النيترو المتبقي في المخزون:</div>
                 <div id="links-count-display">47</div>
             </div>
             
@@ -131,7 +131,7 @@
     </div>
 
     <script>
-        // مصفوفة تحتوي على الـ 47 رابطاً بالكامل
+        // مصفوفة الروابط الـ 47 كاملة
         let nitroLinks = [
             "https://promos.discord.gg/Ge28zGCH5pMSbEebpBkUa8nc", "https://promos.discord.gg/JBbC5pHuz4bMWwkxB8Xpxwgg", "https://promos.discord.gg/HXWpfStcKQTJBMkMEpDH5AxM", "https://promos.discord.gg/Gfn6ck6U7GSd67nGHezh9DGt", "https://promos.discord.gg/GrpJKRftgjuRUV9mFT5z7zdn", "https://promos.discord.gg/Gm79wCTa68SZnjHTwxDzKkUE", "https://promos.discord.gg/HJg3prRaugw4ArQW7utstczw", "https://promos.discord.gg/Gs64zR3n2C6mQQ5VNyxzfY77", "https://promos.discord.gg/HfwYhAyTcAY7vpea2vkXYdr7", "https://promos.discord.gg/HDXmDNbg692kxrckZxnAmgWY", "https://promos.discord.gg/GwCJhRKK8ZyfpjGpeSc3EpED", "https://promos.discord.gg/H75DpgWCNHpfQKqTSuUGfpbH", "https://promos.discord.gg/H6hwxjgU73WnzPa2TKmTpm8u", "https://promos.discord.gg/H32pbCv99TgXmr5jUd72b45P", "https://promos.discord.gg/GtEAXWAzaG8P4e5fGHHfAVhv", "https://promos.discord.gg/GmYdVwm6sQaExDQW6hj6NKsw", "https://promos.discord.gg/GyteUPswcwm5QZfdeFwXxxyH", "https://promos.discord.gg/HABMzJXut68f3zhjZvCYSuxu", "https://promos.discord.gg/HRbWpwNSC4mw55HFeuTZBJxY", "https://promos.discord.gg/HgpdDBwUENKyjR4aaGBVps7h", "https://promos.discord.gg/H5DEQbqAa6Xv3pdnjKugJJv2", "https://promos.discord.gg/H4CpujzHG4AbFRsyZynSg6PB", "https://promos.discord.gg/HA3PdKX8uhbDxkSZwhNJsbtX", "https://promos.discord.gg2/HWA8NTps9BjmCCZXVejdraSy", "https://promos.discord.gg/H9VHhVt9xJAusXRh2hBpQfY6", "https://promos.discord.gg/H3bJZMuWyEb2Mf8HC9UR7jJ6", "https://promos.discord.gg/GdWwMPGdremBJASdRfPjuebD", "https://promos.discord.gg/GxKPCzzCMHWdfpuDcZ37cWty", "https://discord.com/billing/promotions/JF9bFf5ZbaYS2zRbB9F87wkk", "https://promos.discord.gg/JNSkgddNbAFsVj57qXjNgNX6", "https://promos.discord.gg/HrKGzSFPcvfncPcMMWTEjj6x", "https://promos.discord.gg/JBYCQ5agBsNAV3sHA6E5VwQK", "https://promos.discord.gg/Jg5W7zWYscWthm6NBnm8rZaf", "https://promos.discord.gg/JdyGgTYkdsmWJaZbXYWsQUkz", "https://promos.discord.gg/JJbNW4y58GsxVRbmXKZw5Xvm", "https://promos.discord.gg/JTx8PSKgR36HpjVRqyBMyE7C", "https://promos.discord.gg/JNvA76qKVPVcjJES9ujSpNYa", "https://promos.discord.gg/JJtVaGjUFxcaUBw8WrKykRVX", "https://promos.discord.gg/CSQNY4eykYSWZ4gMyJAn7C47", "https://promos.discord.gg/9JFMF4zmPFR4U2ktMJQ4GQEd", "https://promos.discord.gg/9WTKJ2CXmaAMvBbXHBmzYVhc", "https://promos.discord.gg/WtF32n3X9BUffH67Ykrzqsxd", "https://promos.discord.gg/WUqEevBs5YQjTATXCHf7ZKP5", "https://promos.discord.gg/WV5yGaHQvh5hRAt8juadTFYS", "https://promos.discord.gg/WmxNNz53qkesSZbndkpEGxxp", "https://promos.discord.gg/WrG9UKXykxdxRjxqmgERqh8Z", "https://promos.discord.gg/WtF32n3X9BUffH67Ykrzqsxd"
         ];
@@ -208,7 +208,7 @@
                     buyBtn.disabled = true;
                     buyBtn.style.opacity = "0.5";
                     let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                    timerBox.innerText = `متاح بعد: ${days} يوم`;
+                    timerBox.innerText = `يمكنك الشراء بعد: ${days} يوم`;
                     return false;
                 }
             }
@@ -256,7 +256,7 @@
             localStorage.setItem('atlas_user_' + currentUserId, JSON.stringify(user));
 
             document.getElementById('points-count').innerText = user.points;
-            updateInventoryUI(); // سينقص الرقم الآن من 47 ليصبح 46 وهكذا
+            updateInventoryUI(); // ينقص العدد هنا
             checkCooldownStatus();
 
             alert("تم الشراء بنجاح! الرابط: " + link);
