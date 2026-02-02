@@ -61,12 +61,18 @@
         }
         .points-value { font-size: 38px; font-weight: 800; display: block; }
 
-        .inventory-info {
-            background: rgba(0,0,0,0.2);
+        .inventory-card {
+            background: #313338;
             padding: 15px;
             border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px dashed #4f545c;
+            margin-bottom: 20px;
+            border: 1px solid #4e5058;
+        }
+
+        #links-count-display {
+            font-size: 24px;
+            color: #23a559;
+            font-weight: bold;
         }
 
         #ad-overlay {
@@ -77,8 +83,6 @@
         .discord-img { width: 100px; margin-bottom: 15px; }
         
         #cooldown-timer { color: #ff73fa; font-size: 12px; margin-top: 5px; font-weight: bold; }
-        #links-status { color: #00ff00; font-size: 13px; font-weight: bold; }
-        #current-link-number { color: var(--nitro-pink); font-size: 18px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -87,7 +91,7 @@
         <div id="step-login">
             <img src="Discord.png" alt="Discord Logo" class="discord-img">
             <h1>Atlas Nitro</h1>
-            <p class="subtitle">سجل دخولك عبر جوجل للبدء</p>
+            <p class="subtitle">سجل دخولك للبدء</p>
             <div id="g_id_onload" data-client_id="1035748084009-cop81ce2crdq16pfeanrtq3odgkcmm4k.apps.googleusercontent.com" data-callback="onSignIn"></div>
             <div style="display: flex; justify-content: center;">
                 <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue" data-size="large"></div>
@@ -97,28 +101,27 @@
         <div id="step-data" class="hidden">
             <h2>أكمل بياناتك</h2>
             <input type="text" id="nameInput" placeholder="الاسم الكامل">
-            <input type="text" id="dobInput" placeholder="تاريخ الميلاد DD/MM/YYYY">
             <button class="btn-primary" onclick="finishSetup()">دخول للتطبيق</button>
         </div>
 
         <div id="step-main" class="hidden">
             <div style="text-align: right; font-size: 13px; color: #b5bac1;">مرحباً، <span id="display-name" style="color: white; font-weight: bold;"></span></div>
+            
             <div class="points-box">
                 <span class="points-value" id="points-count">0</span>
                 <span>نقطة Atlas</span>
             </div>
 
-            <div class="inventory-info">
-                <div id="links-status">جاري التحقق...</div>
-                <div id="link-id-display" style="margin-top:5px;">النيترو المتاح للتسليم: <span id="current-link-number">#1</span></div>
+            <div class="inventory-card">
+                <div style="font-size: 14px; color: #b5bac1; margin-bottom: 5px;">الروابط المتوفرة في المخزون:</div>
+                <div id="links-count-display">47</div>
             </div>
             
             <button class="btn-primary" onclick="showAd()">📺 مشاهدة إعلان (+30 نقطة)</button>
             <button id="buy-btn" class="btn-nitro" onclick="redeem()">🎁 استبدال نيترو (7000 نقطة)</button>
             <div id="cooldown-timer"></div>
             
-            <p style="font-size: 11px; color: #80848e; margin-top: 15px;">يتم مراجعة العمليات لضمان حقيقة المشاهدات</p>
-            <button onclick="logout()" style="background:transparent; color:#ff4747; border:none; margin-top:10px; cursor:pointer;">تسجيل خروج</button>
+            <button onclick="logout()" style="background:transparent; color:#ff4747; border:none; margin-top:20px; cursor:pointer;">تسجيل خروج</button>
         </div>
     </div>
 
@@ -128,10 +131,9 @@
     </div>
 
     <script>
-        const INITIAL_TOTAL = 47; 
+        // مصفوفة تحتوي على الـ 47 رابطاً بالكامل
         let nitroLinks = [
-            "https://promos.discord.gg/Ge28zGCH5pMSbEebpBkUa8nc","https://promos.discord.gg/JBbC5pHuz4bMWwkxB8Xpxwgg","https://promos.discord.gg/HXWpfStcKQTJBMkMEpDH5AxM","https://promos.discord.gg/Gfn6ck6U7GSd67nGHezh9DGt","https://promos.discord.gg/GrpJKRftgjuRUV9mFT5z7zdn","https://promos.discord.gg/Gm79wCTa68SZnjHTwxDzKkUE","https://promos.discord.gg/HJg3prRaugw4ArQW7utstczw","https://promos.discord.gg/Gs64zR3n2C6mQQ5VNyxzfY77","https://promos.discord.gg/HfwYhAyTcAY7vpea2vkXYdr7","https://promos.discord.gg/HDXmDNbg692kxrckZxnAmgWY","https://promos.discord.gg/GwCJhRKK8ZyfpjGpeSc3EpED","https://promos.discord.gg/H75DpgWCNHpfQKqTSuUGfpbH","https://promos.discord.gg/H6hwxjgU73WnzPa2TKmTpm8u","https://promos.discord.gg/H32pbCv99TgXmr5jUd72b45P","https://promos.discord.gg/GtEAXWAzaG8P4e5fGHHfAVhv","https://promos.discord.gg/GmYdVwm6sQaExDQW6hj6NKsw","https://promos.discord.gg/GyteUPswcwm5QZfdeFwXxxyH","https://promos.discord.gg/HABMzJXut68f3zhjZvCYSuxu","https://promos.discord.gg/HRbWpwNSC4mw55HFeuTZBJxY","https://promos.discord.gg/HgpdDBwUENKyjR4aaGBVps7h","https://promos.discord.gg/H5DEQbqAa6Xv3pdnjKugJJv2","https://promos.discord.gg/H4CpujzHG4AbFRsyZynSg6PB","https://promos.discord.gg/HA3PdKX8uhbDxkSZwhNJsbtX","https://promos.discord.gg2/HWA8NTps9BjmCCZXVejdraSy","https://promos.discord.gg/H9VHhVt9xJAusXRh2hBpQfY6","https://promos.discord.gg/H3bJZMuWyEb2Mf8HC9UR7jJ6","https://promos.discord.gg/GdWwMPGdremBJASdRfPjuebD","https://promos.discord.gg/GxKPCzzCMHWdfpuDcZ37cWty","https://discord.com/billing/promotions/JF9bFf5ZbaYS2zRbB9F87wkk","https://promos.discord.gg/JNSkgddNbAFsVj57qXjNgNX6","https://promos.discord.gg/HrKGzSFPcvfncPcMMWTEjj6x","https://promos.discord.gg/JBYCQ5agBsNAV3sHA6E5VwQK","https://promos.discord.gg/Jg5W7zWYscWthm6NBnm8rZaf","https://promos.discord.gg/JdyGgTYkdsmWJaZbXYWsQUkz","https://promos.discord.gg/JJbNW4y58GsxVRbmXKZw5Xvm","https://promos.discord.gg/JTx8PSKgR36HpjVRqyBMyE7C","https://promos.discord.gg/JNvA76qKVPVcjJES9ujSpNYa","https://promos.discord.gg/JJtVaGjUFxcaUBw8WrKykRVX","https://promos.discord.gg/CSQNY4eykYSWZ4gMyJAn7C47","https://promos.discord.gg/9JFMF4zmPFR4U2ktMJQ4GQEd","https://promos.discord.gg/9WTKJ2CXmaAMvBbXHBmzYVhc",
-            "https://promos.discord.gg/WtF32n3X9BUffH67Ykrzqsxd","https://promos.discord.gg/WUqEevBs5YQjTATXCHf7ZKP5","https://promos.discord.gg/WV5yGaHQvh5hRAt8juadTFYS","https://promos.discord.gg/WmxNNz53qkesSZbndkpEGxxp","https://promos.discord.gg/WrG9UKXykxdxRjxqmgERqh8Z","https://promos.discord.gg/WtF32n3X9BUffH67Ykrzqsxd"
+            "https://promos.discord.gg/Ge28zGCH5pMSbEebpBkUa8nc", "https://promos.discord.gg/JBbC5pHuz4bMWwkxB8Xpxwgg", "https://promos.discord.gg/HXWpfStcKQTJBMkMEpDH5AxM", "https://promos.discord.gg/Gfn6ck6U7GSd67nGHezh9DGt", "https://promos.discord.gg/GrpJKRftgjuRUV9mFT5z7zdn", "https://promos.discord.gg/Gm79wCTa68SZnjHTwxDzKkUE", "https://promos.discord.gg/HJg3prRaugw4ArQW7utstczw", "https://promos.discord.gg/Gs64zR3n2C6mQQ5VNyxzfY77", "https://promos.discord.gg/HfwYhAyTcAY7vpea2vkXYdr7", "https://promos.discord.gg/HDXmDNbg692kxrckZxnAmgWY", "https://promos.discord.gg/GwCJhRKK8ZyfpjGpeSc3EpED", "https://promos.discord.gg/H75DpgWCNHpfQKqTSuUGfpbH", "https://promos.discord.gg/H6hwxjgU73WnzPa2TKmTpm8u", "https://promos.discord.gg/H32pbCv99TgXmr5jUd72b45P", "https://promos.discord.gg/GtEAXWAzaG8P4e5fGHHfAVhv", "https://promos.discord.gg/GmYdVwm6sQaExDQW6hj6NKsw", "https://promos.discord.gg/GyteUPswcwm5QZfdeFwXxxyH", "https://promos.discord.gg/HABMzJXut68f3zhjZvCYSuxu", "https://promos.discord.gg/HRbWpwNSC4mw55HFeuTZBJxY", "https://promos.discord.gg/HgpdDBwUENKyjR4aaGBVps7h", "https://promos.discord.gg/H5DEQbqAa6Xv3pdnjKugJJv2", "https://promos.discord.gg/H4CpujzHG4AbFRsyZynSg6PB", "https://promos.discord.gg/HA3PdKX8uhbDxkSZwhNJsbtX", "https://promos.discord.gg2/HWA8NTps9BjmCCZXVejdraSy", "https://promos.discord.gg/H9VHhVt9xJAusXRh2hBpQfY6", "https://promos.discord.gg/H3bJZMuWyEb2Mf8HC9UR7jJ6", "https://promos.discord.gg/GdWwMPGdremBJASdRfPjuebD", "https://promos.discord.gg/GxKPCzzCMHWdfpuDcZ37cWty", "https://discord.com/billing/promotions/JF9bFf5ZbaYS2zRbB9F87wkk", "https://promos.discord.gg/JNSkgddNbAFsVj57qXjNgNX6", "https://promos.discord.gg/HrKGzSFPcvfncPcMMWTEjj6x", "https://promos.discord.gg/JBYCQ5agBsNAV3sHA6E5VwQK", "https://promos.discord.gg/Jg5W7zWYscWthm6NBnm8rZaf", "https://promos.discord.gg/JdyGgTYkdsmWJaZbXYWsQUkz", "https://promos.discord.gg/JJbNW4y58GsxVRbmXKZw5Xvm", "https://promos.discord.gg/JTx8PSKgR36HpjVRqyBMyE7C", "https://promos.discord.gg/JNvA76qKVPVcjJES9ujSpNYa", "https://promos.discord.gg/JJtVaGjUFxcaUBw8WrKykRVX", "https://promos.discord.gg/CSQNY4eykYSWZ4gMyJAn7C47", "https://promos.discord.gg/9JFMF4zmPFR4U2ktMJQ4GQEd", "https://promos.discord.gg/9WTKJ2CXmaAMvBbXHBmzYVhc", "https://promos.discord.gg/WtF32n3X9BUffH67Ykrzqsxd", "https://promos.discord.gg/WUqEevBs5YQjTATXCHf7ZKP5", "https://promos.discord.gg/WV5yGaHQvh5hRAt8juadTFYS", "https://promos.discord.gg/WmxNNz53qkesSZbndkpEGxxp", "https://promos.discord.gg/WrG9UKXykxdxRjxqmgERqh8Z", "https://promos.discord.gg/WtF32n3X9BUffH67Ykrzqsxd"
         ];
 
         let currentUserId = localStorage.getItem('last_user_id');
@@ -143,6 +145,8 @@
             } else {
                 localStorage.setItem('nitro_inventory', JSON.stringify(nitroLinks));
             }
+            updateInventoryUI();
+
             if (currentUserId) {
                 let savedData = localStorage.getItem('atlas_user_' + currentUserId);
                 if (savedData) {
@@ -151,6 +155,14 @@
                 }
             }
         };
+
+        function updateInventoryUI() {
+            const display = document.getElementById('links-count-display');
+            if (display) {
+                display.innerText = nitroLinks.length;
+                display.style.color = nitroLinks.length > 0 ? "#23a559" : "#ff4747";
+            }
+        }
 
         function onSignIn(response) {
             const userData = JSON.parse(atob(response.credential.split('.')[1]));
@@ -181,27 +193,8 @@
             document.getElementById('step-login').classList.add('hidden');
             document.getElementById('step-data').classList.add('hidden');
             document.getElementById('step-main').classList.remove('hidden');
-            updateStatusUI();
+            updateInventoryUI();
             checkCooldownStatus();
-        }
-
-        function updateStatusUI() {
-            const statusBox = document.getElementById('links-status');
-            const numBox = document.getElementById('current-link-number');
-            const idDisplay = document.getElementById('link-id-display');
-
-            if (nitroLinks.length > 0) {
-                statusBox.innerText = `الكمية المتبقية: ${nitroLinks.length}`;
-                statusBox.style.color = "#00ff00";
-                
-                let currentNum = INITIAL_TOTAL - nitroLinks.length + 1;
-                numBox.innerText = `#${currentNum}`;
-                idDisplay.style.display = 'block';
-            } else {
-                statusBox.innerText = "نفذت الكمية! انتظر التجديد.";
-                statusBox.style.color = "#ff4747";
-                idDisplay.style.display = 'none';
-            }
         }
 
         function checkCooldownStatus() {
@@ -215,8 +208,7 @@
                     buyBtn.disabled = true;
                     buyBtn.style.opacity = "0.5";
                     let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                    let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    timerBox.innerText = `متاح للشراء بعد: ${days}ي ${hours}س`;
+                    timerBox.innerText = `متاح بعد: ${days} يوم`;
                     return false;
                 }
             }
@@ -227,8 +219,7 @@
         }
 
         function showAd() {
-            const adURL = "https://www.effectivegatecpm.com/g7v7zrki4?key=00e15d386272d1aaee15dcd17a8b3961"; 
-            window.open(adURL, '_blank');
+            window.open("https://www.effectivegatecpm.com/g7v7zrki4?key=00e15d386272d1aaee15dcd17a8b3961", '_blank');
             document.getElementById('ad-overlay').style.display = 'flex';
             let timeLeft = 15;
             let interval = setInterval(() => {
@@ -247,16 +238,17 @@
             user.points += amount;
             localStorage.setItem('atlas_user_' + currentUserId, JSON.stringify(user));
             document.getElementById('points-count').innerText = user.points;
-            alert("تمت إضافة 30 نقطة لرصيدك!");
         }
 
         function redeem() {
             if (!checkCooldownStatus()) return;
             let user = JSON.parse(localStorage.getItem('atlas_user_' + currentUserId));
+            
             if (user.points < 7000) return alert("رصيدك غير كافٍ (مطلوب 7000 نقطة)");
-            if (nitroLinks.length === 0) return alert("المخزون فارغ حالياً.");
+            if (nitroLinks.length === 0) return alert("عذراً، انتهى المخزون.");
 
-            let link = nitroLinks.shift(); 
+            // سحب رابط وإنقاص العدد من الـ 47
+            let link = nitroLinks.shift();
             localStorage.setItem('nitro_inventory', JSON.stringify(nitroLinks));
 
             user.points -= 7000;
@@ -264,10 +256,10 @@
             localStorage.setItem('atlas_user_' + currentUserId, JSON.stringify(user));
 
             document.getElementById('points-count').innerText = user.points;
-            updateStatusUI(); 
+            updateInventoryUI(); // سينقص الرقم الآن من 47 ليصبح 46 وهكذا
             checkCooldownStatus();
 
-            alert("مبروك! الرابط الحالي هو: " + link);
+            alert("تم الشراء بنجاح! الرابط: " + link);
             window.open(link, '_blank');
         }
 
